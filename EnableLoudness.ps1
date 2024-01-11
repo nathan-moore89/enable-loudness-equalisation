@@ -81,7 +81,7 @@ $defaultDevicePath = Get-Item -Path 'HKCU:\Software\Microsoft\Windows\CurrentVer
 $renderer = Get-ItemProperty -Path Registry::$defaultDevicePath
 
 if($renderer.length -lt 1) {
-    exitWithErrorMsg "Could not find any device named $playbackDeviceName"
+    exitWithErrorMsg "Could not find any device named $defaultDevice"
 }
 
 $activeRenderer = @($renderer | Where-Object -Property DeviceState -eq 1)
