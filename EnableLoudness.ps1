@@ -77,7 +77,7 @@ if($devices.length -eq 0) {
     exitWithErrorMsg "Script does not have access to your Audiodevices, try to run it as Admin."
 }
 
-$defaultDevicePath = (Get-ItemProperty 'HKCU:\Software\Microsoft\Multimedia\Sound Mapper').{PreferredPlayback} -replace ".*?\\\{.*?\\(.*?)}",'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render\$1'
+$defaultDevicePath = Get-Item -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render' | Get-ItemProperty | Where-Object { $_.State -eq 1 } | Select-Object -First 1 -ExpandProperty PSPath
 $renderer = Get-ItemProperty -Path Registry::$defaultDevicePath
 
 if($renderer.length -lt 1) {
